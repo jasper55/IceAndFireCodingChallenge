@@ -15,8 +15,6 @@ import wagner.jasper.iceandfirecodingchallenge.housesdetailpage.data.model.Chara
 import wagner.jasper.iceandfirecodingchallenge.housesdetailpage.domain.mapper.toDomain
 import wagner.jasper.iceandfirecodingchallenge.housesdetailpage.domain.model.GoTCharacter
 import wagner.jasper.iceandfirecodingchallenge.housespage.data.model.HouseDTO
-import wagner.jasper.iceandfirecodingchallenge.housespage.domain.mapper.toDomain
-import wagner.jasper.iceandfirecodingchallenge.housespage.domain.model.House
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,14 +26,17 @@ class GoTKtorHttpClient @Inject constructor(
     @IO private val coroutineDispatcher: CoroutineDispatcher
 ) : DataClient {
 
-    override suspend fun getHouses(page: Int, pageSize: Int): Either<Exception, List<House>> =
+    override suspend fun getHouses(
+        page: Int,
+        pageSize: Int
+    ): Either<Exception, Map<Int?, List<HouseDTO>>> =
         withContext(coroutineDispatcher) {
             try {
                 val response = httpClient.get("$baseUrl/houses?page=$page&pageSize=$pageSize")
                 if (response.status.value == HttpStatusCode.OK.value) {
                     val houses = response.body<List<HouseDTO>>()
                     val nextPage = headerInterceptor.getNextPage(response.headers)
-                    houses.map { house -> house.toDomain(page, nextPage) }.right()
+                    mapOf(nextPage to houses).right()
                 } else {
                     IllegalStateException("Could not load page $page. Response code: ${response.status}").left()
                 }

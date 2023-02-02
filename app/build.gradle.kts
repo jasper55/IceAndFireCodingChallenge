@@ -68,6 +68,8 @@ dependencies {
     implementation(Libraries.Room.roomPaging)
     kapt(Libraries.Room.roomKapt)
 
+    implementation(Libraries.Storage.dataStore)
+
     implementation(Libraries.Hilt.hilt)
     kapt(Libraries.Hilt.hiltKapt)
 

@@ -7,16 +7,19 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import wagner.jasper.iceandfirecodingchallenge.common.data.DataBaseConstants.HOUSE_TABLE_NAME
-import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDataModel
+import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDbEntity
 
 @Dao
 interface HouseInfoDao {
     @Query("SELECT * FROM $HOUSE_TABLE_NAME")
-    fun getPagedHouse(): PagingSource<Int, HouseDataModel>
+    fun getPagedHouse(): PagingSource<Int, HouseDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun storeHouses(houses: List<HouseDataModel>)
+    suspend fun storeHouses(houses: List<HouseDbEntity>)
 
     @Query("SELECT * FROM $HOUSE_TABLE_NAME WHERE id = :id")
-    fun getHouseById(id: Int): Flow<HouseDataModel>
+    fun getHouseById(id: Int): Flow<HouseDbEntity>
+
+    @Query("DELETE FROM $HOUSE_TABLE_NAME")
+    suspend fun clearHouses()
 }

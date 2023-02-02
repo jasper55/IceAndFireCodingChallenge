@@ -7,15 +7,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import wagner.jasper.iceandfirecodingchallenge.common.data.CharacterInfoDao
+import wagner.jasper.iceandfirecodingchallenge.common.data.*
 import wagner.jasper.iceandfirecodingchallenge.common.data.DataBaseConstants.GOT_DATA_BASE_NAME
-import wagner.jasper.iceandfirecodingchallenge.common.data.HouseInfoDao
-import wagner.jasper.iceandfirecodingchallenge.common.data.LocalRoomDataBase
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LocalDataBaseModule {
+object LocalDataModule {
 
     @Provides
     @Singleton
@@ -32,4 +30,8 @@ object LocalDataBaseModule {
     @Singleton
     fun provideCharacterDao(db: LocalRoomDataBase): CharacterInfoDao =
         db.getCharacterDao()
+
+    @Provides
+    @Singleton
+    fun provideKeyStorage(keyStorage: PagingKeyDataStore): PagingKeyStorage = keyStorage
 }

@@ -1,11 +1,11 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.domain.mapper
 
-import wagner.jasper.iceandfirecodingchallenge.housespage.data.model.HouseDTO
+import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDbEntity
 import wagner.jasper.iceandfirecodingchallenge.housespage.domain.model.House
-import wagner.jasper.iceandfirecodingchallenge.housespage.domain.model.HousePagingData
 
-fun HouseDTO.toDomain(page: Int, nextPage: Int?) =
+fun HouseDbEntity.toDomain() =
     House(
+        id = id,
         url = url,
         name = name,
         region = region,
@@ -13,5 +13,4 @@ fun HouseDTO.toDomain(page: Int, nextPage: Int?) =
         words = words,
         seats = seats,
         currentLord = currentLord,
-        pagingData = HousePagingData(page, nextPage)
     )

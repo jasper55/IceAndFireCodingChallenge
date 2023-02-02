@@ -5,8 +5,9 @@ import androidx.room.PrimaryKey
 import wagner.jasper.iceandfirecodingchallenge.common.data.DataBaseConstants.HOUSE_TABLE_NAME
 
 @Entity(tableName = HOUSE_TABLE_NAME)
-data class HouseDataModel(
+data class HouseDbEntity(
     @PrimaryKey val id: Int = 0,
+    val url: String,
     val name: String,
     val region: String,
     val coatOfArms: String,

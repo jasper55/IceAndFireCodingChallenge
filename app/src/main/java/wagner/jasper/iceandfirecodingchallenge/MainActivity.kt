@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import wagner.jasper.iceandfirecodingchallenge.housespage.presentation.view.HousesOverviewScreen
+import wagner.jasper.iceandfirecodingchallenge.housespage.presentation.view.MainScreen
 import wagner.jasper.iceandfirecodingchallenge.ui.theme.IceAndFireCodingChallengeTheme
 
 @AndroidEntryPoint
@@ -21,12 +21,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             IceAndFireCodingChallengeTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HousesOverviewScreen(hiltViewModel())
+                    MainScreen(hiltViewModel())
                 }
             }
         }

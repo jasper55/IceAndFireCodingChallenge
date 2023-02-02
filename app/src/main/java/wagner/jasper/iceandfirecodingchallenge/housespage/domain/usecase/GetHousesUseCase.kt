@@ -1,10 +1,10 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.domain.usecase
 
-import wagner.jasper.iceandfirecodingchallenge.common.network.DataClient
+import wagner.jasper.iceandfirecodingchallenge.housespage.data.repository.HousesRepository
 import javax.inject.Inject
 
 class GetHousesUseCase @Inject constructor(
-    private val client: DataClient
+    private val repository: HousesRepository
 ) {
-    suspend operator fun invoke(page: Int) = client.getHouses(page, 20)
+    operator fun invoke() = repository.getHouses()
 }

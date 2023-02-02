@@ -8,6 +8,10 @@ object Libraries {
         const val gradleClasspath = "org.jetbrains.kotlin:kotlin-serialization:${Versions.serialization}"
     }
 
+    object Storage {
+        const val dataStore = "androidx.datastore:datastore-preferences:1.0.0"
+    }
+
     object AndroidX {
         const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
         const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
