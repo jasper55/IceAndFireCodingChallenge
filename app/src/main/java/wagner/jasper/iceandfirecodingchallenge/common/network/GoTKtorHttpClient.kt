@@ -8,6 +8,7 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import wagner.jasper.iceandfirecodingchallenge.common.di.annotation.BaseUrl
 import wagner.jasper.iceandfirecodingchallenge.common.di.annotation.IO
@@ -31,6 +32,7 @@ class GoTKtorHttpClient @Inject constructor(
         pageSize: Int
     ): Either<Exception, Map<Int?, List<HouseDTO>>> =
         withContext(coroutineDispatcher) {
+            delay(5000)
             try {
                 val response = httpClient.get("$baseUrl/houses?page=$page&pageSize=$pageSize")
                 if (response.status.value == HttpStatusCode.OK.value) {

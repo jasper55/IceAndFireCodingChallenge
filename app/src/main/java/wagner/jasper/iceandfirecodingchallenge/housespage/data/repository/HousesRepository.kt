@@ -1,10 +1,7 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.data.repository
 
 import androidx.paging.*
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -27,7 +24,7 @@ class HousesRepository @Inject constructor(
     private val localDb: LocalRoomDataBase,
     private val pagingKeyStorage: PagingKeyStorage,
     @IO private val coroutineDispatcher: CoroutineDispatcher,
-) : CoroutineScope {
+) {
 
     @OptIn(ExperimentalPagingApi::class)
     fun getHouses(): Flow<PagingData<House>> {
@@ -44,5 +41,5 @@ class HousesRepository @Inject constructor(
             .flowOn(Dispatchers.IO)
     }
 
-    override val coroutineContext: CoroutineContext = coroutineDispatcher + SupervisorJob()
+//    override val coroutineContext: CoroutineContext = coroutineDispatcher + SupervisorJob()
 }

@@ -1,52 +1,41 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.presentation.view
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.R
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
-import androidx.paging.compose.items
-
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import kotlinx.coroutines.flow.flowOf
-import wagner.jasper.iceandfirecodingchallenge.housespage.presentation.viewmodel.HousesViewModel
+import androidx.paging.compose.items
 import wagner.jasper.iceandfirecodingchallenge.housespage.domain.model.House
+import wagner.jasper.iceandfirecodingchallenge.housespage.presentation.viewmodel.HousesViewModel
 
 @Composable
 fun MainScreen(
     viewModel: HousesViewModel,
 ) {
-
     val houses = viewModel.houses.collectAsLazyPagingItems()
-
-    HousesOverviewView(houses = houses) {
-        viewModel.onHouseClicked(it)
-    }
-
+    HousesOverviewView(houses, viewModel)
 }
 
 @Composable
-fun HousesOverviewView(houses: LazyPagingItems<House>, onHouseClicked: (Int) -> Unit) {
-    Box(
+fun HousesOverviewView(houses: LazyPagingItems<House>, viewModel: HousesViewModel) {
+    Column(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxSize()
+            .fillMaxWidth()
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             items(houses) { house ->
                 house?.run {
@@ -54,23 +43,18 @@ fun HousesOverviewView(houses: LazyPagingItems<House>, onHouseClicked: (Int) -> 
                         house = this,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { onHouseClicked(this.id) }
+                            .clickable { viewModel.onHouseClicked(this.id) }
                             .padding(top = 6.dp, bottom = 6.dp)
                     )
-                } ?:
-                Text(text = "error")
-
+                } ?: Text(text = "error")
+            }
+            if (houses.loadState.append is LoadState.Loading) {
+                item {
+                    LoadingView(houses.loadState) { viewModel.retry() }
                 }
+            }
         }
     }
-}
-
-@Preview
-@Composable
-fun HousesOverviewLayoutLoadingPreview() {
-    val data by flowOf(emptyList<House>()).collectAsState(initial = emptyList())
-
-//    HousesOverviewView(data) {}
 }
 
 @Composable
@@ -84,3 +68,5 @@ fun HouseItem(house: House, modifier: Modifier = Modifier) {
         }
     }
 }
+
+
