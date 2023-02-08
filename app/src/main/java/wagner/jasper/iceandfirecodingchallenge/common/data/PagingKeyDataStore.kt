@@ -18,7 +18,7 @@ private const val PAGE_NOT_AVAILABLE_FALLBACK = -1
 
 @Singleton
 class PagingKeyDataStore @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) : PagingKeyStorage {
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DATA_STORE_NAME)

@@ -12,10 +12,9 @@ import wagner.jasper.iceandfirecodingchallenge.common.data.model.RoomTypeConvert
     version = 1,
 )
 @TypeConverters(
-    RoomTypeConverter::class
+    RoomTypeConverter::class,
 )
-abstract class LocalRoomDataBase: RoomDatabase() {
+abstract class LocalRoomDataBase : RoomDatabase() {
     abstract fun getHouseDao(): HouseInfoDao
     abstract fun getCharacterDao(): CharacterInfoDao
 }
-

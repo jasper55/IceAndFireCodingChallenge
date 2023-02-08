@@ -10,7 +10,6 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import wagner.jasper.iceandfirecodingchallenge.common.di.annotation.BaseUrl
-import wagner.jasper.iceandfirecodingchallenge.housespage.domain.usecase.GetHousesUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -19,9 +18,11 @@ object NetworkModule {
     @Provides
     fun httpClient(): HttpClient = HttpClient(Android) {
         install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-            })
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                },
+            )
         }
     }
 

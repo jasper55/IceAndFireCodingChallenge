@@ -1,7 +1,8 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.data.repository
 
 import androidx.paging.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -14,7 +15,6 @@ import wagner.jasper.iceandfirecodingchallenge.housespage.domain.model.House
 import wagner.jasper.iceandfirecodingchallenge.housespage.paging.HouseRemoteMediator
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.CoroutineContext
 
 const val PAGE_SIZE = 20
 
@@ -32,7 +32,7 @@ class HousesRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE),
             remoteMediator = HouseRemoteMediator(dataClient, localDb, pagingKeyStorage),
-            pagingSourceFactory = pagingSourceFactory
+            pagingSourceFactory = pagingSourceFactory,
         )
             .flow
             .map { houseEntity ->
