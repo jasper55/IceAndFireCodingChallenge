@@ -4,6 +4,18 @@ plugins {
     kotlin("kapt")
     id("kotlinx-serialization")
     id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp") version ("1.6.10-1.0.2")
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
 }
 
 android {
@@ -46,7 +58,6 @@ android {
     }
 }
 
-
 dependencies {
     implementation(Libraries.AndroidX.coreKtx)
     implementation(Libraries.AndroidX.appCompat)
@@ -74,6 +85,8 @@ dependencies {
     kapt(Libraries.Hilt.hiltKapt)
 
     implementation(Libraries.Navigation.compose)
+    implementation(Libraries.Navigation.raam)
+    ksp(Libraries.Navigation.ksp)
 
     implementation(Libraries.Squareup.retrofit)
     implementation(Libraries.Squareup.loggingInterceptor)

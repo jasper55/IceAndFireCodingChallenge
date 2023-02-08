@@ -48,6 +48,8 @@ object Libraries {
 
     object Navigation {
         const val compose = "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
+        const val raam = "io.github.raamcosta.compose-destinations:core:${Versions.navigationRaam}"
+        const val ksp = "io.github.raamcosta.compose-destinations:ksp:${Versions.navigationRaam}"
     }
 
     object Others {

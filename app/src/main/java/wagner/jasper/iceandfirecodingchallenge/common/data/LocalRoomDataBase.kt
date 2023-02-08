@@ -6,9 +6,14 @@ import androidx.room.TypeConverters
 import wagner.jasper.iceandfirecodingchallenge.common.data.model.CharacterDataModel
 import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDbEntity
 import wagner.jasper.iceandfirecodingchallenge.common.data.model.RoomTypeConverter
+import wagner.jasper.iceandfirecodingchallenge.housedetailspage.data.model.HouseDetailsDbEntity
 
 @Database(
-    entities = [HouseDbEntity::class, CharacterDataModel::class],
+    entities = [
+        HouseDbEntity::class,
+        CharacterDataModel::class,
+        HouseDetailsDbEntity::class,
+    ],
     version = 1,
 )
 @TypeConverters(

@@ -9,8 +9,5 @@ fun HouseDbEntity.toDomain() =
         url = url,
         name = name,
         region = region,
-        coatOfArms = coatOfArms,
-        words = words,
-        seats = seats,
         currentLord = currentLord,
     )

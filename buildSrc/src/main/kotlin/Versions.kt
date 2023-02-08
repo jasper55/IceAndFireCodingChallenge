@@ -26,6 +26,7 @@ object Versions {
     // Navigation
     const val navigationCompose = "2.4.0-alpha06"
     const val hiltNavigationCompose = "1.0.0-alpha03"
+    const val navigationRaam = "1.1.2-beta"
 
     // Paging
     const val pagingCompose = "1.0.0-alpha14"
