@@ -86,6 +86,7 @@ dependencies {
 
     implementation(Libraries.Navigation.compose)
     implementation(Libraries.Navigation.raam)
+    implementation(Libraries.Navigation.animations)
     ksp(Libraries.Navigation.ksp)
 
     implementation(Libraries.Squareup.retrofit)
