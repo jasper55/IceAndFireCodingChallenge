@@ -16,7 +16,7 @@ import wagner.jasper.iceandfirecodingchallenge.housedetailspage.data.model.Chara
 import wagner.jasper.iceandfirecodingchallenge.housedetailspage.data.model.HouseDetailsDTO
 import wagner.jasper.iceandfirecodingchallenge.housedetailspage.domain.mapper.toDomain
 import wagner.jasper.iceandfirecodingchallenge.housedetailspage.domain.model.GoTCharacter
-import wagner.jasper.iceandfirecodingchallenge.housespage.data.model.HouseDTO
+import wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.model.HouseDTO
 import javax.inject.Inject
 import javax.inject.Singleton
 

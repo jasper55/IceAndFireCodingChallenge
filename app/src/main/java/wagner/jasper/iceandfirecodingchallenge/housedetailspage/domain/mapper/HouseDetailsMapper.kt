@@ -31,17 +31,17 @@ fun HouseDetailsDTO.toDomain() =
         region = region,
         coatOfArms = coatOfArms,
         words = words,
-        titles = titles,
-        seats = seats,
+        titles = titles.filter { it.isNotBlank() },
+        seats = seats.filter { it.isNotBlank() },
         currentLord = currentLord,
         heir = heir,
         overlord = overlord,
         founded = founded,
         founder = founder,
         diedOut = diedOut,
-        ancestralWeapons = ancestralWeapons,
-        cadetBranches = cadetBranches,
-        swornMembers = swornMembers,
+        ancestralWeapons = ancestralWeapons.filter { it.isNotBlank() },
+        cadetBranches = cadetBranches.filter { it.isNotBlank() },
+        swornMembers = swornMembers.filter { it.isNotBlank() },
     )
 
 fun HouseDetailsDTO.toDbEntity() =
