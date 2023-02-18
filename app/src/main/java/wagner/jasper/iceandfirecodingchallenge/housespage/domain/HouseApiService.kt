@@ -3,7 +3,7 @@ package wagner.jasper.iceandfirecodingchallenge.housespage.domain
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import wagner.jasper.iceandfirecodingchallenge.housespage.data.model.HouseDTO
+import wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.model.HouseDTO
 
 interface HouseApiService {
 

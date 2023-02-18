@@ -1,7 +1,7 @@
-package wagner.jasper.iceandfirecodingchallenge.housespage.data.mapper
+package wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.mapper
 
 import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDbEntity
-import wagner.jasper.iceandfirecodingchallenge.housespage.data.model.HouseDTO
+import wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.model.HouseDTO
 
 fun HouseDTO.toDbEntity() =
     HouseDbEntity(

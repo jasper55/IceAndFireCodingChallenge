@@ -1,7 +1,12 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.presentation.view
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -10,6 +15,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Portrait
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,9 +61,19 @@ fun MainScreen(
                     )
                 }
             }
-            if (houses.loadState.append is LoadState.Loading) {
+            if (houses.loadState.append is LoadState.Loading ||
+                houses.loadState.refresh is LoadState.Loading
+            ) {
                 item {
-                    LoadingView(houses.loadState) { viewModel.retry() }
+                    HousesShimmerView()
+                }
+            }
+
+            if (houses.loadState.append is LoadState.Error ||
+                houses.loadState.refresh is LoadState.Error
+            ) {
+                item {
+                    ErrorView { viewModel.retry() }
                 }
             }
         }
@@ -71,13 +87,18 @@ fun HouseItem(house: House, modifier: Modifier = Modifier) {
         elevation = 4.dp,
         shape = RoundedCornerShape(8.dp),
     ) {
-        Column(Modifier.padding(8.dp)) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
             Text(
                 text = house.name,
                 style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(bottom = 4.dp),
             )
-            Row(verticalAlignment = Alignment.Bottom) {
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+            ) {
                 Icon(
                     Icons.Default.LocationOn,
                     null,
@@ -85,6 +106,21 @@ fun HouseItem(house: House, modifier: Modifier = Modifier) {
                     modifier = Modifier.size(16.dp),
                 )
                 Text(text = house.region, style = MaterialTheme.typography.overline)
+            }
+
+            if (house.currentLord.isNotEmpty()) {
+                Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.spacedBy(2.dp),
+                ) {
+                    Icon(
+                        Icons.Default.Portrait,
+                        null,
+                        tint = Color.Gray,
+                        modifier = Modifier.size(16.dp),
+                    )
+                    Text(text = house.currentLord, style = MaterialTheme.typography.overline)
+                }
             }
         }
     }

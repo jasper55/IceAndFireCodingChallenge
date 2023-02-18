@@ -1,6 +1,5 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -11,7 +10,7 @@ import wagner.jasper.iceandfirecodingchallenge.common.data.LocalRoomDataBase
 import wagner.jasper.iceandfirecodingchallenge.common.data.PagingKeyStorage
 import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDbEntity
 import wagner.jasper.iceandfirecodingchallenge.common.network.DataClient
-import wagner.jasper.iceandfirecodingchallenge.housespage.data.mapper.toDbEntity
+import wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.mapper.toDbEntity
 
 @OptIn(ExperimentalPagingApi::class)
 class HouseRemoteMediator(
@@ -42,10 +41,8 @@ class HouseRemoteMediator(
                     return MediatorResult.Error(it)
                 }.entries.first()
 
-            val houseEntities = pagedHouses.value.mapIndexed { index, houseDTO ->
-                val entity = houseDTO.toDbEntity()
-                Log.d("INDEX", "$index ${entity.id}")
-                return@mapIndexed entity
+            val houseEntities = pagedHouses.value.map { houseDTO ->
+                houseDTO.toDbEntity()
             }
             localDb.getHouseDao().storeHouses(houseEntities)
             val nextPage = pagedHouses.key

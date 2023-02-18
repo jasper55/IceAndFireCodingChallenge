@@ -1,41 +1,28 @@
 package wagner.jasper.iceandfirecodingchallenge.housespage.presentation.view
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
-import wagner.jasper.iceandfirecodingchallenge.common.presentation.view.shimmer
+import wagner.jasper.iceandfirecodingchallenge.common.presentation.view.ShimmerView
 
 @Composable
-fun LoadingView(state: CombinedLoadStates, onErrorAction: () -> Unit) {
-
-    if (state.append is LoadState.Loading) {
-        ShimmerView()
-    }
-    if (state.append is LoadState.Error) {
-        ErrorView { onErrorAction }
-    }
-
-}
-
-@Composable
-fun ShimmerView() {
+fun HousesShimmerView() {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
-        ShimmerListItem()
-        ShimmerListItem()
-        ShimmerListItem()
-        ShimmerListItem()
-        ShimmerListItem()
-        ShimmerListItem()
+        for (i in 1..20) {
+            ShimmerListItem()
+        }
     }
 }
 
@@ -51,16 +38,46 @@ fun ShimmerListItem(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 8.dp),
-        elevation = 4.dp
+            .padding(8.dp),
+        elevation = 4.dp,
     ) {
-        Box(
-            Modifier
-                .padding(8.dp)
-                .height(20.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(2.dp, 2.dp, 2.dp, 2.dp))
-                .shimmer()
-        )
+        Column {
+            ShimmerView(
+                size = IntSize(120, 20),
+                padding = PaddingValues(
+                    top = 8.dp,
+                    start = 8.dp,
+                    bottom = 8.dp,
+                ),
+            )
+            Row {
+                ShimmerView(
+                    size = IntSize(20, 20),
+                    padding = PaddingValues(
+                        start = 8.dp,
+                        end = 8.dp,
+                        bottom = 8.dp,
+                    ),
+                )
+                ShimmerView(
+                    size = IntSize(80, 20),
+                    padding = PaddingValues(bottom = 8.dp),
+                )
+            }
+            Row {
+                ShimmerView(
+                    size = IntSize(20, 20),
+                    padding = PaddingValues(
+                        start = 8.dp,
+                        end = 8.dp,
+                        bottom = 8.dp,
+                    ),
+                )
+                ShimmerView(
+                    size = IntSize(150, 20),
+                    padding = PaddingValues(bottom = 8.dp),
+                )
+            }
+        }
     }
 }

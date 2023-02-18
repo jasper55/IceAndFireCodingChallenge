@@ -1,4 +1,4 @@
-package wagner.jasper.iceandfirecodingchallenge.housespage.data.model
+package wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.model
 
 import kotlinx.serialization.Serializable
 
