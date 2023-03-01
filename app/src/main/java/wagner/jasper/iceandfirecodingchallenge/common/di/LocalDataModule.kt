@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import wagner.jasper.iceandfirecodingchallenge.character.domain.data.repository.CharacterInfoDao
 import wagner.jasper.iceandfirecodingchallenge.common.data.*
 import wagner.jasper.iceandfirecodingchallenge.common.data.DataBaseConstants.GOT_DATA_BASE_NAME
 import javax.inject.Singleton

@@ -17,9 +17,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Portrait
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -27,6 +30,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import wagner.jasper.iceandfirecodingchallenge.character.presentation.viewmodel.CharacterViewModel
+import wagner.jasper.iceandfirecodingchallenge.common.presentation.view.DotsFlashing
 import wagner.jasper.iceandfirecodingchallenge.destinations.HouseDetailsScreenDestination
 import wagner.jasper.iceandfirecodingchallenge.housespage.domain.model.House
 import wagner.jasper.iceandfirecodingchallenge.housespage.presentation.viewmodel.HousesViewModel
@@ -37,6 +42,7 @@ fun MainScreen(
     navigator: DestinationsNavigator,
 ) {
     val viewModel = hiltViewModel<HousesViewModel>()
+
     val houses = viewModel.houses.collectAsLazyPagingItems()
 
     Column(
@@ -57,7 +63,7 @@ fun MainScreen(
                             .clickable {
                                 navigator.navigate(HouseDetailsScreenDestination(house.id))
                             }
-                            .padding(top = 6.dp, bottom = 6.dp),
+                            .padding(vertical = 6.dp),
                     )
                 }
             }
@@ -81,7 +87,20 @@ fun MainScreen(
 }
 
 @Composable
-fun HouseItem(house: House, modifier: Modifier = Modifier) {
+fun HouseItem(
+    house: House,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel = hiltViewModel<CharacterViewModel>()
+    val lordName = viewModel.characters.collectAsState().value[house.currentLord]?.name
+    val isLoading = viewModel.isLoading.collectAsState().value[house.currentLord]
+
+    LaunchedEffect(key1 = house.currentLord) {
+        if (house.currentLord.isNotBlank()) {
+            viewModel.loadCharacter(house.currentLord)
+        }
+    }
+
     Card(
         modifier = modifier,
         elevation = 4.dp,
@@ -93,34 +112,37 @@ fun HouseItem(house: House, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = house.name,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.h5,
             )
-            Row(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(2.dp),
-            ) {
-                Icon(
-                    Icons.Default.LocationOn,
-                    null,
-                    tint = Color.Gray,
-                    modifier = Modifier.size(16.dp),
-                )
-                Text(text = house.region, style = MaterialTheme.typography.overline)
-            }
+            RowItem(Icons.Default.LocationOn, house.region)
+            RowItem(Icons.Default.Portrait, lordName, isLoading == true)
+        }
+    }
+}
 
-            if (house.currentLord.isNotEmpty()) {
-                Row(
-                    verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.spacedBy(2.dp),
-                ) {
-                    Icon(
-                        Icons.Default.Portrait,
-                        null,
-                        tint = Color.Gray,
-                        modifier = Modifier.size(16.dp),
-                    )
-                    Text(text = house.currentLord, style = MaterialTheme.typography.overline)
-                }
+@Composable
+private fun RowItem(
+    icon: ImageVector,
+    text: String?,
+    isLoading: Boolean = false,
+) {
+    if (text == null && !isLoading) {
+        return
+    } else {
+        Row(
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            Icon(
+                icon,
+                null,
+                tint = Color.Gray,
+                modifier = Modifier.size(24.dp),
+            )
+            if (isLoading) {
+                DotsFlashing()
+            } else {
+                Text(text = text!!, style = MaterialTheme.typography.body1)
             }
         }
     }

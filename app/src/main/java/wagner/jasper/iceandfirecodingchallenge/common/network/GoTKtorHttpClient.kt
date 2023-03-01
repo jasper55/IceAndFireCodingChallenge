@@ -3,19 +3,17 @@ package wagner.jasper.iceandfirecodingchallenge.common.network
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import wagner.jasper.iceandfirecodingchallenge.character.domain.data.model.CharacterDTO
 import wagner.jasper.iceandfirecodingchallenge.common.di.annotation.BaseUrl
 import wagner.jasper.iceandfirecodingchallenge.common.di.annotation.IO
-import wagner.jasper.iceandfirecodingchallenge.housedetailspage.data.model.CharacterDTO
 import wagner.jasper.iceandfirecodingchallenge.housedetailspage.data.model.HouseDetailsDTO
-import wagner.jasper.iceandfirecodingchallenge.housedetailspage.domain.mapper.toDomain
-import wagner.jasper.iceandfirecodingchallenge.housedetailspage.domain.model.GoTCharacter
 import wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.model.HouseDTO
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,12 +46,12 @@ class GoTKtorHttpClient @Inject constructor(
             }
         }
 
-    override suspend fun getCharacter(url: String): Either<Exception, GoTCharacter> =
+    override suspend fun getCharacter(url: String): Either<Exception, CharacterDTO> =
         withContext(coroutineDispatcher) {
             try {
                 val response = httpClient.get(url)
                 if (response.status.value == HttpStatusCode.OK.value) {
-                    response.body<CharacterDTO>().toDomain().right()
+                    response.body<CharacterDTO>().right()
                 } else {
                     IllegalStateException("Failed to load character with error code ${response.status.value}").left()
                 }

@@ -25,7 +25,7 @@ fun Modifier.shimmer(): Modifier = composed {
     val startOffsetX by transition.animateFloat(
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
-        animationSpec = infiniteRepeatable(tween(2000))
+        animationSpec = infiniteRepeatable(tween(2000)),
     )
 
     background(
@@ -33,11 +33,11 @@ fun Modifier.shimmer(): Modifier = composed {
             colors = listOf(
                 Color(0xFFC2C2C2),
                 Color(0xFF868686),
-                Color(0xFFC2C2C2)
+                Color(0xFFC2C2C2),
             ),
             start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.width.toFloat())
-        )
+            end = Offset(startOffsetX + size.width.toFloat(), size.width.toFloat()),
+        ),
     )
         .onGloballyPositioned {
             size = it.size

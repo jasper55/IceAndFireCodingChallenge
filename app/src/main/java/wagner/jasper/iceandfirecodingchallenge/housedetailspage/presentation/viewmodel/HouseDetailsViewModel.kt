@@ -6,7 +6,10 @@ import arrow.core.Either
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import wagner.jasper.iceandfirecodingchallenge.character.domain.model.GoTCharacter
+import wagner.jasper.iceandfirecodingchallenge.character.domain.usecase.GetCharacterUseCase
 import wagner.jasper.iceandfirecodingchallenge.housedetailspage.domain.model.HouseDetails
 import wagner.jasper.iceandfirecodingchallenge.housedetailspage.domain.usecase.GetHouseDetailsUseCase
 import javax.inject.Inject
@@ -14,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HouseDetailsViewModel @Inject constructor(
     private val getHouseDetailsUseCase: GetHouseDetailsUseCase,
+    private val getCharacterUseCase: GetCharacterUseCase,
 ) : ViewModel() {
 
     private val _hasError: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -21,8 +25,12 @@ class HouseDetailsViewModel @Inject constructor(
 
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+
     private val _houseDetails: MutableStateFlow<HouseDetails?> = MutableStateFlow(null)
     val houseDetails = _houseDetails.asStateFlow()
+
+    private val _members: MutableStateFlow<List<GoTCharacter>> = MutableStateFlow(emptyList())
+    val members = _members.asStateFlow()
 
     fun loadHouseDetails(id: Int) = viewModelScope.launch {
         _isLoading.emit(true)
@@ -36,11 +44,22 @@ class HouseDetailsViewModel @Inject constructor(
             is Either.Right -> {
                 _hasError.emit(false)
                 _houseDetails.emit(result.value)
+                loadCharacterData(result.value.swornMembers)
             }
         }
         _isLoading.emit(false)
     }
 
-    fun reload() {
+    private suspend fun loadCharacterData(memberUrls: List<String>) {
+        memberUrls.forEach { url ->
+            val member = (getCharacterUseCase(url) as? Either.Right)?.value ?: return@forEach
+            _members.update { list ->
+                list.toMutableList().apply {
+                    add(member)
+                }
+            }
+        }
     }
+
+    fun reload() {}
 }
