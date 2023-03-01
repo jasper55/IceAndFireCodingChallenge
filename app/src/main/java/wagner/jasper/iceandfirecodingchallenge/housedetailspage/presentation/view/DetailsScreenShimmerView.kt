@@ -1,2 +1,0 @@
-package wagner.jasper.iceandfirecodingchallenge.housedetailspage.presentation.view
-

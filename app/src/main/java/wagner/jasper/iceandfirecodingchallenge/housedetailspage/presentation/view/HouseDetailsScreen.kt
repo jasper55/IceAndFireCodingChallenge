@@ -73,7 +73,8 @@ fun HouseDetailsScreen(
         ) {
             details.value?.let { details ->
                 HouseDetailsView(details, members.value)
-            } ?: if (isLoading.value) {
+            }
+            if (isLoading.value) {
                 HousesShimmerView()
             }
             if (hasError.value) {

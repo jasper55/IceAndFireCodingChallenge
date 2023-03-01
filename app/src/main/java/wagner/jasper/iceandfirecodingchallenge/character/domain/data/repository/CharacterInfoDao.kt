@@ -14,7 +14,4 @@ interface CharacterInfoDao {
 
     @Query("SELECT * FROM $CHARACTER_TABLE_NAME WHERE id = :id")
     suspend fun getCharacterById(id: Int): CharacterDbEntity?
-
-    @Query("SELECT id not null FROM $CHARACTER_TABLE_NAME WHERE url = :url")
-    suspend fun doesCharacterExist(url: String): Boolean
 }

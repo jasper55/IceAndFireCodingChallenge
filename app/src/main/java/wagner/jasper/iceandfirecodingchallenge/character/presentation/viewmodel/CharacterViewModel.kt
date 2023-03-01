@@ -40,7 +40,6 @@ class CharacterViewModel @Inject constructor(
                 _character.emit(result.value)
                 _hasError.update(url, false)
                 updateLoadedCharacters(url, result.value)
-//                _character.update(url, result.value)
             }
         }
         _isLoading.update(url, false)

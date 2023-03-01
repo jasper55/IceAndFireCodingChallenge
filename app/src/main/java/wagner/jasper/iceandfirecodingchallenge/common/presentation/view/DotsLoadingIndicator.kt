@@ -27,8 +27,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-val dotSize = 24.dp // made it bigger for demo
-val delayUnit = 300 // you can change delay to change animation speed
+val dotSize = 24.dp
+const val delayUnit = 300
 
 @Composable
 fun DotsPulsing() {

@@ -18,3 +18,11 @@ fun CharacterDTO.toDbEntity(id: Int) = CharacterDbEntity(
     name = name,
     gender = gender,
 )
+
+fun CharacterDTO.toDomain(id: Int) =
+    GoTCharacter(
+        id = id,
+        url = url,
+        name = name,
+        gender = gender,
+    )
