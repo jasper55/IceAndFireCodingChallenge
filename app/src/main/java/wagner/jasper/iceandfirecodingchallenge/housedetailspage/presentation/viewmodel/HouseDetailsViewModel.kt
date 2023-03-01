@@ -32,6 +32,9 @@ class HouseDetailsViewModel @Inject constructor(
     private val _members: MutableStateFlow<List<GoTCharacter>> = MutableStateFlow(emptyList())
     val members = _members.asStateFlow()
 
+    private val _founder: MutableStateFlow<GoTCharacter?> = MutableStateFlow(null)
+    val founder = _founder.asStateFlow()
+
     fun loadHouseDetails(id: Int) = viewModelScope.launch {
         _isLoading.emit(true)
         val result = getHouseDetailsUseCase(id)
@@ -45,9 +48,17 @@ class HouseDetailsViewModel @Inject constructor(
                 _hasError.emit(false)
                 _houseDetails.emit(result.value)
                 loadCharacterData(result.value.swornMembers)
+                loadFounderName(result.value.founder)
             }
         }
         _isLoading.emit(false)
+    }
+
+    private suspend fun loadFounderName(characterUrl: String) {
+        if (characterUrl.isNotBlank()) {
+            val founder = (getCharacterUseCase(characterUrl) as? Either.Right)?.value ?: return
+            _founder.update { founder }
+        }
     }
 
     private suspend fun loadCharacterData(memberUrls: List<String>) {

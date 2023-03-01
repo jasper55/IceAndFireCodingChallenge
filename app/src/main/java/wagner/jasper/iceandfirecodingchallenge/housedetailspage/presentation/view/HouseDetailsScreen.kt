@@ -58,6 +58,7 @@ fun HouseDetailsScreen(
     val members = viewModel.members.collectAsState(emptyList())
     val isLoading = viewModel.isLoading.collectAsState(true)
     val hasError = viewModel.hasError.collectAsState(false)
+    val founder = viewModel.founder.collectAsState()
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -72,7 +73,11 @@ fun HouseDetailsScreen(
                 .weight(1f),
         ) {
             details.value?.let { details ->
-                HouseDetailsView(details, members.value)
+                HouseDetailsView(
+                    details,
+                    members.value,
+                    founder.value,
+                )
             }
             if (isLoading.value) {
                 HousesShimmerView()
@@ -88,7 +93,11 @@ fun HouseDetailsScreen(
 }
 
 @Composable
-fun HouseDetailsView(houseDetails: HouseDetails, members: List<GoTCharacter>) {
+fun HouseDetailsView(
+    houseDetails: HouseDetails,
+    members: List<GoTCharacter>,
+    founder: GoTCharacter?,
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -113,7 +122,7 @@ fun HouseDetailsView(houseDetails: HouseDetails, members: List<GoTCharacter>) {
                 Quote(houseDetails)
                 Titles(houseDetails)
                 Foundation(houseDetails)
-                Founder(houseDetails)
+                Founder(founder)
                 HouseObit(houseDetails)
                 Weapons(houseDetails)
                 CadetBranches(houseDetails)
@@ -226,8 +235,8 @@ private fun HouseObit(houseDetails: HouseDetails) {
 }
 
 @Composable
-private fun Founder(houseDetails: HouseDetails) {
-    if (houseDetails.founder.isNotEmpty()) {
+private fun Founder(founder: GoTCharacter?) {
+    founder?.let { founder ->
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -238,7 +247,7 @@ private fun Founder(houseDetails: HouseDetails) {
                 fontWeight = FontWeight.Medium,
             )
             Text(
-                text = houseDetails.founder,
+                text = founder.name,
                 style = MaterialTheme.typography.subtitle1,
                 fontWeight = FontWeight.Medium,
             )
