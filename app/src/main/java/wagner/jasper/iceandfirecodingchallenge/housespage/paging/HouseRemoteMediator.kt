@@ -10,6 +10,7 @@ import wagner.jasper.iceandfirecodingchallenge.common.data.LocalRoomDataBase
 import wagner.jasper.iceandfirecodingchallenge.common.data.PagingKeyStorage
 import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDbEntity
 import wagner.jasper.iceandfirecodingchallenge.common.network.DataClient
+import wagner.jasper.iceandfirecodingchallenge.common.network.UrlFactory
 import wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.mapper.toDbEntity
 
 @OptIn(ExperimentalPagingApi::class)
@@ -17,6 +18,7 @@ class HouseRemoteMediator(
     private val dataClient: DataClient,
     private val localDb: LocalRoomDataBase,
     private val pagingKeyStorage: PagingKeyStorage,
+    private val urlFactory: UrlFactory,
 ) : RemoteMediator<Int, HouseDbEntity>() {
 
     override suspend fun load(
@@ -42,7 +44,8 @@ class HouseRemoteMediator(
                 }.entries.first()
 
             val houseEntities = pagedHouses.value.map { houseDTO ->
-                houseDTO.toDbEntity()
+                val id = urlFactory.getHouseId(houseDTO.url)
+                houseDTO.toDbEntity(id)
             }
             localDb.getHouseDao().storeHouses(houseEntities)
             val nextPage = pagedHouses.key
