@@ -36,7 +36,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), AppConfig.proguardConsumerRules)
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                AppConfig.proguardConsumerRules,
+            )
         }
     }
 
@@ -103,6 +106,10 @@ dependencies {
     implementation(Libraries.Ktor.kotlinXJson)
 
     testImplementation(Libraries.Test.junit)
+    testImplementation(Libraries.Test.mockk)
+    testImplementation(Libraries.Test.truth)
+    testImplementation(Libraries.Test.coroutinesTest)
+    testImplementation(Libraries.Test.coreTesting)
     androidTestImplementation(Libraries.Test.ext)
     androidTestImplementation(Libraries.Test.espresso)
     androidTestImplementation(Libraries.Test.uiTestJunit)

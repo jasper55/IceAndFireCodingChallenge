@@ -236,22 +236,21 @@ private fun HouseObit(houseDetails: HouseDetails) {
 
 @Composable
 private fun Founder(founder: GoTCharacter?) {
-    founder?.let { founder ->
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Text(
-                "Founder:",
-                style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.Medium,
-            )
-            Text(
-                text = founder.name,
-                style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.Medium,
-            )
-        }
+    val founder = founder ?: return
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(
+            "Founder:",
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Medium,
+        )
+        Text(
+            text = founder.name,
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Medium,
+        )
     }
 }
 

@@ -1,5 +1,6 @@
 package wagner.jasper.iceandfirecodingchallenge.character.domain.data.repository
 
+import android.database.sqlite.SQLiteException
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,8 +11,10 @@ import wagner.jasper.iceandfirecodingchallenge.common.data.DataBaseConstants.CHA
 @Dao
 interface CharacterInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Throws(SQLiteException::class)
     suspend fun storeCharacter(character: CharacterDbEntity)
 
     @Query("SELECT * FROM $CHARACTER_TABLE_NAME WHERE id = :id")
+    @Throws(SQLiteException::class)
     suspend fun getCharacterById(id: Int): CharacterDbEntity?
 }

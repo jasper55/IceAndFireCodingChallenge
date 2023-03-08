@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import wagner.jasper.iceandfirecodingchallenge.common.data.LocalRoomDataBase
+import wagner.jasper.iceandfirecodingchallenge.common.data.HouseInfoDao
 import wagner.jasper.iceandfirecodingchallenge.common.data.PagingKeyStorage
 import wagner.jasper.iceandfirecodingchallenge.common.network.DataClient
 import wagner.jasper.iceandfirecodingchallenge.common.network.UrlFactory
@@ -24,16 +24,16 @@ const val PAGE_SIZE = 20
 @Singleton
 class HousesRepository @Inject constructor(
     private val dataClient: DataClient,
-    private val localDb: LocalRoomDataBase,
+    private val localHouseDB: HouseInfoDao,
     private val pagingKeyStorage: PagingKeyStorage,
     private val urlFactory: UrlFactory,
 ) {
     @OptIn(ExperimentalPagingApi::class)
     fun getHouses(): Flow<PagingData<House>> {
-        val pagingSourceFactory = { localDb.getHouseDao().getPagedHouse() }
+        val pagingSourceFactory = { localHouseDB.getPagedHouse() }
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE),
-            remoteMediator = HouseRemoteMediator(dataClient, localDb, pagingKeyStorage, urlFactory),
+            remoteMediator = HouseRemoteMediator(dataClient, localHouseDB, pagingKeyStorage, urlFactory),
             pagingSourceFactory = pagingSourceFactory,
         )
             .flow

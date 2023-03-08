@@ -47,7 +47,7 @@ class HouseDetailsViewModel @Inject constructor(
             is Either.Right -> {
                 _hasError.emit(false)
                 _houseDetails.emit(result.value)
-                loadCharacterData(result.value.swornMembers)
+                loadsSwornMembers(result.value.swornMembers)
                 loadFounderName(result.value.founder)
             }
         }
@@ -61,7 +61,7 @@ class HouseDetailsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadCharacterData(memberUrls: List<String>) {
+    private suspend fun loadsSwornMembers(memberUrls: List<String>) {
         memberUrls.forEach { url ->
             val member = (getCharacterUseCase(url) as? Either.Right)?.value ?: return@forEach
             _members.update { list ->

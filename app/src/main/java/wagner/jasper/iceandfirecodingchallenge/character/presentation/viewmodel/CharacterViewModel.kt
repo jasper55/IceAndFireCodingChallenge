@@ -22,11 +22,10 @@ class CharacterViewModel @Inject constructor(
 
     private val _isLoading: MutableStateFlow<Map<String, Boolean>> = MutableStateFlow(mapOf())
     val isLoading = _isLoading.asStateFlow()
-    private val _character: MutableStateFlow<GoTCharacter?> = MutableStateFlow(null)
-    val character = _character.asStateFlow()
     private val _characters: MutableStateFlow<Map<String, GoTCharacter>> = MutableStateFlow(mapOf())
-    var characters = _characters.asStateFlow()
+    val characters = _characters.asStateFlow()
     fun loadCharacter(url: String) = viewModelScope.launch {
+        if (url.isBlank()) return@launch
         _isLoading.update(url, true)
         delay(2000)
         val result = getCharacterUseCase(url)
@@ -37,7 +36,6 @@ class CharacterViewModel @Inject constructor(
         when (result) {
             is Either.Left -> _hasError.update(url, true)
             is Either.Right -> {
-                _character.emit(result.value)
                 _hasError.update(url, false)
                 updateLoadedCharacters(url, result.value)
             }

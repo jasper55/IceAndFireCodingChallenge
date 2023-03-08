@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import arrow.core.getOrHandle
 import kotlinx.coroutines.flow.first
-import wagner.jasper.iceandfirecodingchallenge.common.data.LocalRoomDataBase
+import wagner.jasper.iceandfirecodingchallenge.common.data.HouseInfoDao
 import wagner.jasper.iceandfirecodingchallenge.common.data.PagingKeyStorage
 import wagner.jasper.iceandfirecodingchallenge.common.data.model.HouseDbEntity
 import wagner.jasper.iceandfirecodingchallenge.common.network.DataClient
@@ -16,7 +16,7 @@ import wagner.jasper.iceandfirecodingchallenge.housespage.domain.data.mapper.toD
 @OptIn(ExperimentalPagingApi::class)
 class HouseRemoteMediator(
     private val dataClient: DataClient,
-    private val localDb: LocalRoomDataBase,
+    private val localHouseDb: HouseInfoDao,
     private val pagingKeyStorage: PagingKeyStorage,
     private val urlFactory: UrlFactory,
 ) : RemoteMediator<Int, HouseDbEntity>() {
@@ -28,7 +28,7 @@ class HouseRemoteMediator(
         when (loadType) {
             LoadType.REFRESH -> {
                 pagingKeyStorage.reset()
-                localDb.getHouseDao().clearHouses()
+                localHouseDb.clearHouses()
             }
             LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
             LoadType.APPEND -> {}
@@ -47,7 +47,7 @@ class HouseRemoteMediator(
                 val id = urlFactory.getHouseId(houseDTO.url)
                 houseDTO.toDbEntity(id)
             }
-            localDb.getHouseDao().storeHouses(houseEntities)
+            localHouseDb.storeHouses(houseEntities)
             val nextPage = pagedHouses.key
             pagingKeyStorage.storeNextPage(nextPage)
             MediatorResult.Success(endOfPaginationReached = nextPage == null)

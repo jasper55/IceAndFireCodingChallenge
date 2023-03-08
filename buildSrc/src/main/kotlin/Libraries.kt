@@ -79,5 +79,10 @@ object Libraries {
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
         const val uiTestJunit = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
         const val junit = "junit:junit:${Versions.junit}"
+        const val mockk = "io.mockk:mockk:1.12.4"
+        const val truth = "com.google.truth:truth:1.1.3"
+        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:1.6.2"
+        const val coreTesting = "androidx.arch.core:core-testing:2.1.0"
+
     }
 }

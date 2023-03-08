@@ -96,9 +96,7 @@ fun HouseItem(
     val isLoading = viewModel.isLoading.collectAsState().value[house.currentLord]
 
     LaunchedEffect(key1 = house.currentLord) {
-        if (house.currentLord.isNotBlank()) {
-            viewModel.loadCharacter(house.currentLord)
-        }
+        viewModel.loadCharacter(house.currentLord)
     }
 
     Card(

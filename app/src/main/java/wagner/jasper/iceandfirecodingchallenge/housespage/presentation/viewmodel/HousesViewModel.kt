@@ -16,6 +16,5 @@ class HousesViewModel @Inject constructor(
 ) : ViewModel() {
 
     val houses: Flow<PagingData<House>> = getHousesUseCase().cachedIn(viewModelScope)
-
     fun retry() {}
 }
