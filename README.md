@@ -8,6 +8,7 @@ An App to show the houses from the [API of Ice And Fire](https://anapioficeandfi
 ## Technologies
 
 - Jetpack Compose
+- [Compose Destinations] (https://github.com/raamcosta/compose-destinations)
 - Hilt
 - Paging3 (RemoteMediator)
 - Room
