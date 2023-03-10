@@ -2,9 +2,6 @@
 
 An App to show the houses from the [API of Ice And Fire](https://anapioficeandfire.com/).
 
-![Overview](images/overview.png)
-![House Details](images/house_details.png)
-
 ## Technologies
 
 - Jetpack Compose
@@ -19,3 +16,4 @@ An App to show the houses from the [API of Ice And Fire](https://anapioficeandfi
 ## Todo
 
 - Display more of the House-Details on the Details-Screen
+- Create Screen for Character Details
